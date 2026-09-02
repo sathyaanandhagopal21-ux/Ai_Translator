@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(rtk ls *)",
+      "Bash(pip --version)",
+      "Bash(py --version)",
+      "Bash(python -m pip --version)",
+      "Bash(py -m pip --version)",
+      "Bash(python -c \"import config; print\\('config OK -', len\\(config.LANGUAGES\\), 'languages'\\); print\\('sources:', config.source_language_names\\(\\)[:3], '...'\\); print\\('EN->TA codes:', config.get_language\\('Tamil'\\)\\)\")",
+      "Bash(python main.py --selftest)",
+      "Bash(python -m pip install \"sounddevice>=0.4.6\" \"numpy>=1.21\")",
+      "Bash(python -c ' *)",
+      "Bash(python -m pip install PyAudioWPatch)",
+      "Bash(python -m pip install \"SpeechRecognition>=3.10\")",
+      "Bash(python -m pip install \"deep-translator>=1.11.4\" \"langdetect>=1.0.9\")",
+      "Bash(python -m pip install -U deep-translator)",
+      "Bash(python -m pip install \"gTTS>=2.3.2\" \"pyttsx3>=2.90\")",
+      "Bash(python test_pipeline.py)",
+      "Bash(python -m pip freeze)",
+      "Bash(rtk grep *)",
+      "Bash(PYTHONIOENCODING=utf-8 python -X utf8 -c ' *)",
+      "Bash(python -c \"import flask, requests, speech_recognition, gtts, numpy, langdetect; print\\('core deps OK'\\)\")",
+      "Bash(python -c \"import webapp; print\\('webapp imports OK'\\)\")",
+      "Bash(python *)",
+      "Bash(node *)",
+      "Skill(claude-api)",
+      "Bash(GROQ_API_KEY=test-groq GEMINI_API_KEY=test-gemini python -c \"import webapp; print\\(type\\(webapp._stt\\).__name__, [type\\(x\\).__name__ for x in webapp._translation.backends]\\)\")"
+    ]
+  }
+}

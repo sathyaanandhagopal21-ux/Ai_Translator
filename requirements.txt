@@ -1,0 +1,42 @@
+# AI Voice Translator - dependencies (online-free backend)
+# Python 3.10+ on Windows. Install with:  pip install -r requirements.txt
+
+# --- Audio capture -----------------------------------------------------------
+# Records the microphone AND (crucially) Windows SYSTEM/LOOPBACK audio - i.e.
+# whatever is playing on the speakers - with no virtual cable or Stereo Mix.
+# It's a maintained fork of PyAudio with WASAPI loopback support. Clean wheels
+# on Windows (no compiler needed).
+PyAudioWPatch>=0.2.12
+# numpy is used for the audio math (downmix to mono + RMS energy for VAD).
+numpy>=1.21
+
+# --- Speech-to-Text ----------------------------------------------------------
+# Wraps Google's free speech recognition (no API key) and, importantly,
+# handles turning a raw audio buffer into text. Bundles a FLAC encoder on
+# Windows, so we do NOT need PyAudio.
+SpeechRecognition>=3.10
+
+# --- Translation (neural machine translation) --------------------------------
+# Primary backend calls Google Translate's neural models directly over HTTPS
+# (via `requests`) for low latency (~0.4-0.6s). deep-translator provides the
+# MyMemory fallback. No API keys. Swappable later for a paid AI API.
+requests>=2.28
+deep-translator>=1.11.4
+
+# --- Text-to-Speech ----------------------------------------------------------
+# Online, multilingual (supports Tamil/Hindi/etc.). Playback uses the Windows
+# MCI system via ctypes (standard library) - no extra playback dependency.
+gTTS>=2.3.2
+# Offline fallback using installed Windows SAPI voices (English etc.).
+pyttsx3>=2.90
+
+# --- Language detection ------------------------------------------------------
+# Identifies the language of transcribed text for the "Detected: ..." display.
+langdetect>=1.0.9
+
+# --- Web app (webapp.py) -----------------------------------------------------
+# Serves the browser-based version of the translator. The browser captures the
+# microphone (Web Audio API) and posts utterances to Flask, which runs the same
+# STT -> translate -> TTS pipeline. Only needed for `python webapp.py`; the
+# desktop app (main.py) does not use it.
+Flask>=3.0

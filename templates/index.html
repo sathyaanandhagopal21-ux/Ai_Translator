@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ app_title }}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <div class="app">
+
+    <!-- ===================== HEADER ===================== -->
+    <header class="header">
+      <div class="brand">
+        <div class="logo">🎙</div>
+        <div>
+          <h1>{{ app_title }}</h1>
+          <p class="subtitle-note">Live speech translation in your browser</p>
+        </div>
+      </div>
+      <div id="badge" class="badge idle">
+        <span id="badgeDot" class="dot"></span>
+        <span id="badgeText">Idle</span>
+      </div>
+    </header>
+
+    <!-- ===================== CONTROLS ===================== -->
+    <section class="card controls">
+      <div class="lang-row">
+        <div class="field">
+          <label for="sourceSel">From</label>
+          <select id="sourceSel"></select>
+        </div>
+        <div class="arrow">→</div>
+        <div class="field">
+          <label for="targetSel">To</label>
+          <select id="targetSel"></select>
+        </div>
+      </div>
+
+      <div class="device-row">
+        <div class="field">
+          <label for="audioSrcSel">Audio source</label>
+          <select id="audioSrcSel">
+            <option value="mic">🎤 Microphone</option>
+            <option value="system">🖥 System / app audio</option>
+            <option value="both">🎤 + 🖥 Both together</option>
+          </select>
+        </div>
+        <div class="field grow" id="micField">
+          <label for="micSel">Microphone device</label>
+          <select id="micSel"></select>
+        </div>
+        <button id="refreshBtn" class="btn ghost" type="button">⟳ Refresh</button>
+      </div>
+
+      <p id="srcHint" class="hint"></p>
+      <p class="hint quality-note">For best free-service accuracy, choose the spoken source
+        language explicitly and use clear audio. Auto mode is best-effort.</p>
+    </section>
+
+    <!-- ===================== LEVEL METER ===================== -->
+    <div class="meter-row">
+      <span class="meter-label">INPUT LEVEL</span>
+      <div id="meter" class="meter" aria-hidden="true"></div>
+    </div>
+
+    <!-- ===================== ACTIONS ===================== -->
+    <section class="actions">
+      <button id="startBtn" class="btn primary" type="button">▶ Start Translation</button>
+      <button id="stopBtn" class="btn stop" type="button" disabled>■ Stop</button>
+      <button id="clearBtn" class="btn ghost" type="button">🧹 Clear</button>
+      <label class="speak-toggle">
+        <input id="speakChk" type="checkbox" checked>
+        <span>🔊 Speak translation</span>
+      </label>
+    </section>
+
+    <p id="speakNote" class="hint" hidden>
+      Voice output is off for this source: capture pauses while the translation
+      is spoken, so you'd miss part of what's playing. Subtitles keep up better.
+    </p>
+
+    <!-- ===================== STATUS PILLS ===================== -->
+    <section class="pills">
+      <div class="pill">
+        <span class="pill-title">Detected language</span>
+        <span id="detectedVal" class="pill-value">—</span>
+      </div>
+      <div class="pill">
+        <span class="pill-title">Status</span>
+        <span id="statusVal" class="pill-value muted">idle</span>
+      </div>
+      <div class="pill">
+        <span class="pill-title">Voice output</span>
+        <span id="voiceVal" class="pill-value muted">idle</span>
+      </div>
+    </section>
+
+    <!-- ===================== ORIGINAL ===================== -->
+    <section class="card said">
+      <span class="section-label">YOU SAID</span>
+      <div id="originalText" class="original placeholder">Waiting for speech…</div>
+    </section>
+
+    <!-- ===================== TRANSLATION ===================== -->
+    <section class="card subtitle-card">
+      <span class="section-label accent">TRANSLATION</span>
+      <div id="subtitleText" class="subtitle placeholder">
+        Translation will appear here…
+      </div>
+    </section>
+
+    <!-- ===================== ERROR / NOTICE BAR ===================== -->
+    <div id="notice" class="notice" hidden></div>
+
+    <footer class="foot">
+      <span>System audio needs Chrome/Edge + the screen-share dialog. Phone audio? Play it through this PC, or use the desktop app.</span>
+      <a id="exportLink" href="/api/export.csv">Export transcript (CSV)</a>
+    </footer>
+  </div>
+
+  <!-- Hidden audio element used to play the spoken translation -->
+  <audio id="ttsPlayer"></audio>
+
+  <script>
+    // Config injected by Flask (languages, VAD thresholds, defaults).
+    window.APP_CONFIG = {{ config_json | tojson }};
+  </script>
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

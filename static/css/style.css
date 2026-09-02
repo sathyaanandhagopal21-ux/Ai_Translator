@@ -1,0 +1,280 @@
+/* ==========================================================================
+   AI Voice Translator - web UI styles
+   Palette mirrors the desktop app (config.COLORS) for a consistent look.
+   ========================================================================== */
+:root {
+  --bg:       #0f1220;
+  --panel:    #171a2b;
+  --card:     #1f2338;
+  --border:   #2c3150;
+  --text:     #f5f7ff;
+  --muted:    #8b91b0;
+  --accent:   #7ee7ff;
+  --accent2:  #a78bfa;
+  --start:    #4ade80;
+  --stop:     #fb7185;
+  --idle:     #5b6488;
+  --level-bg: #242844;
+  --radius:   14px;
+  --gap:      16px;
+}
+
+* { box-sizing: border-box; }
+
+/* A class like `.field { display: flex }` outranks the browser's built-in
+   `[hidden] { display: none }`, so state the intent explicitly. */
+[hidden] { display: none !important; }
+
+body {
+  margin: 0;
+  background: radial-gradient(1200px 600px at 50% -10%, #1a1f38 0%, var(--bg) 60%);
+  color: var(--text);
+  font-family: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+  min-height: 100vh;
+}
+
+.app {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 26px 20px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+
+/* ------------------------------ header ---------------------------------- */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.brand { display: flex; align-items: center; gap: 14px; }
+.logo {
+  font-size: 30px;
+  width: 54px; height: 54px;
+  display: grid; place-items: center;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+.header h1 { margin: 0; font-size: 22px; font-weight: 600; letter-spacing: .2px; }
+.subtitle-note { margin: 2px 0 0; color: var(--muted); font-size: 13px; }
+
+.badge {
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 9px 15px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 13px; font-weight: 600;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.badge .dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--idle);
+  transition: background .2s ease, box-shadow .2s ease;
+}
+.badge.live { color: var(--start); }
+.badge.live .dot {
+  background: var(--start);
+  box-shadow: 0 0 0 0 rgba(74, 222, 128, .6);
+  animation: pulse 1.4s infinite;
+}
+@keyframes pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(74,222,128,.55); }
+  70%  { box-shadow: 0 0 0 9px rgba(74,222,128,0); }
+  100% { box-shadow: 0 0 0 0 rgba(74,222,128,0); }
+}
+
+/* ------------------------------ cards ----------------------------------- */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+.section-label {
+  display: block;
+  font-size: 11px; letter-spacing: 1px; font-weight: 700;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.section-label.accent { color: var(--accent); }
+
+/* ---------------------------- controls ---------------------------------- */
+.controls { display: flex; flex-direction: column; gap: 14px; }
+.lang-row, .device-row { display: flex; align-items: flex-end; gap: 12px; }
+.field { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.field.grow { flex: 1; }
+.field label {
+  font-size: 11px; letter-spacing: .6px; font-weight: 700; color: var(--muted);
+  text-transform: uppercase;
+}
+.arrow { color: var(--accent); font-size: 20px; font-weight: 700; padding-bottom: 8px; }
+
+/* Explains what the selected audio source can actually capture. */
+.hint {
+  margin: -2px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+select, .btn {
+  font-family: inherit;
+  font-size: 14px;
+}
+select {
+  width: 100%;
+  padding: 10px 12px;
+  color: var(--text);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  appearance: none;
+  cursor: pointer;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--accent) 50%),
+    linear-gradient(135deg, var(--accent) 50%, transparent 50%);
+  background-position: calc(100% - 18px) center, calc(100% - 13px) center;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+}
+select:focus { outline: none; border-color: var(--accent2); }
+select:disabled { opacity: .55; cursor: not-allowed; }
+
+/* ------------------------------ meter ----------------------------------- */
+.meter-row { display: flex; align-items: center; gap: 12px; padding: 0 4px; }
+.meter-label { font-size: 11px; letter-spacing: 1px; font-weight: 700; color: var(--muted); white-space: nowrap; }
+.meter {
+  flex: 1;
+  height: 20px;
+  display: flex;
+  gap: 3px;
+}
+.meter .seg {
+  flex: 1;
+  border-radius: 3px;
+  background: var(--level-bg);
+  transition: background .06s linear;
+}
+
+/* ----------------------------- actions ---------------------------------- */
+.actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.btn {
+  border: none;
+  border-radius: 11px;
+  padding: 11px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .15s ease, transform .05s ease, opacity .15s ease;
+}
+.btn:active { transform: translateY(1px); }
+.btn.primary { background: var(--start); color: #0c1f14; }
+.btn.primary:hover { background: #5cf08c; }
+.btn.stop { background: var(--stop); color: #2a0d0d; }
+.btn.stop:hover { background: #ff8797; }
+.btn.ghost {
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn.ghost:hover { background: var(--border); }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn.primary:disabled:hover { background: var(--start); }
+
+.speak-toggle {
+  margin-left: auto;
+  display: inline-flex; align-items: center; gap: 8px;
+  color: var(--text); font-size: 14px; cursor: pointer; user-select: none;
+}
+.speak-toggle input { width: 16px; height: 16px; accent-color: var(--accent2); cursor: pointer; }
+
+/* ------------------------------ pills ----------------------------------- */
+.pills { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.pill {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 14px;
+  display: flex; flex-direction: column; gap: 3px;
+  min-width: 0;
+}
+.pill-title { font-size: 10px; letter-spacing: .8px; font-weight: 700; color: var(--muted); text-transform: uppercase; }
+.pill-value { font-size: 14px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pill-value.muted { color: var(--muted); font-weight: 500; }
+
+/* -------------------------- text / subtitle ----------------------------- */
+.said .original {
+  font-size: 16px;
+  line-height: 1.5;
+  min-height: 48px;
+  color: var(--text);
+}
+.subtitle-card {
+  background: var(--panel);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+}
+.subtitle {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-align: center;
+  font-family: "Nirmala UI", "Segoe UI", system-ui, sans-serif;
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--accent);
+  padding: 10px;
+  word-break: break-word;
+}
+.placeholder { color: var(--muted) !important; font-weight: 500 !important; }
+
+/* One line of the rolling caption. Older committed lines sit above the
+   in-progress one; the provisional line is dimmed so it's obvious it may
+   still change when the final result lands. */
+.said .original { display: flex; flex-direction: column; gap: 4px; }
+.cap-line { animation: rise .18s ease-out; }
+.cap-line.interim { opacity: .58; font-style: italic; }
+@keyframes rise {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: none; }
+}
+.cap-line.interim { animation: none; }
+
+/* ------------------------ notice / footer ------------------------------- */
+.notice {
+  border-radius: 11px;
+  padding: 11px 15px;
+  font-size: 14px;
+  border: 1px solid;
+}
+.notice.err  { background: rgba(251,113,133,.12); border-color: var(--stop);  color: #ffd7dd; }
+.notice.warn { background: rgba(167,139,250,.12); border-color: var(--accent2); color: #e6ddff; }
+.notice.info { background: rgba(126,231,255,.10); border-color: var(--accent); color: #d6f6ff; }
+
+.foot {
+  display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  color: var(--muted); font-size: 12px;
+  padding-top: 4px;
+}
+.foot a { color: var(--accent); text-decoration: none; }
+.foot a:hover { text-decoration: underline; }
+
+/* ------------------------------ responsive ------------------------------ */
+@media (max-width: 620px) {
+  .subtitle { font-size: 26px; }
+  .pills { grid-template-columns: 1fr; }
+  .lang-row { flex-wrap: wrap; }
+  .device-row { flex-wrap: wrap; }
+  .device-row .field { flex-basis: 100%; }
+  .speak-toggle { margin-left: 0; width: 100%; }
+}
